@@ -45,10 +45,10 @@ importers:
         version: 1.5.0(typescript@5.6.3)
       '@glint/environment-ember-loose':
         specifier: ^1.5.0
-        version: 1.5.0(@glimmer/component@1.1.2(@babel/core@7.26.0))(@glint/template@1.5.0)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.2.0(@babel/core@7.26.0))
+        version: 1.5.0(@glimmer/component@2.0.0)(@glint/template@1.5.0)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.2.0(@babel/core@7.26.0))
       '@glint/environment-ember-template-imports':
         specifier: ^1.5.0
-        version: 1.5.0(@glint/environment-ember-loose@1.5.0(@glimmer/component@1.1.2(@babel/core@7.26.0))(@glint/template@1.5.0)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.2.0(@babel/core@7.26.0)))(@glint/template@1.5.0)
+        version: 1.5.0(@glint/environment-ember-loose@1.5.0(@glimmer/component@2.0.0)(@glint/template@1.5.0)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.2.0(@babel/core@7.26.0)))(@glint/template@1.5.0)
       '@glint/template':
         specifier: ^1.5.0
         version: 1.5.0
@@ -156,8 +156,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0(@embroider/compat@3.6.5(@embroider/core@3.4.19(@glint/template@1.5.0))(@glint/template@1.5.0))(@embroider/core@3.4.19(@glint/template@1.5.0))(@embroider/webpack@4.0.8(@embroider/core@3.4.19(@glint/template@1.5.0))(webpack@5.96.1(@swc/core@1.8.0)(esbuild@0.24.0)))
       '@glimmer/component':
-        specifier: ^1.1.2
-        version: 1.1.2(@babel/core@7.26.0)
+        specifier: ^2.0.0
+        version: 2.0.0
       '@types/jquery':
         specifier: ^3.5.32
         version: 3.5.32
@@ -373,8 +373,8 @@ importers:
         specifier: ^1.6.12
         version: 1.6.12
       '@glimmer/component':
-        specifier: ^1.1.2
-        version: 1.1.2(@babel/core@7.26.0)
+        specifier: ^2.0.0
+        version: 2.0.0
       '@glimmer/tracking':
         specifier: ^1.1.2
         version: 1.1.2
@@ -632,8 +632,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0(@embroider/compat@3.6.5(@embroider/core@3.4.19(@glint/template@1.5.0))(@glint/template@1.5.0))(@embroider/core@3.4.19(@glint/template@1.5.0))(@embroider/webpack@4.0.8(@embroider/core@3.4.19(@glint/template@1.5.0))(webpack@5.96.1(@swc/core@1.8.0)(esbuild@0.24.0)))
       '@glimmer/component':
-        specifier: ^1.1.2
-        version: 1.1.2(@babel/core@7.26.0)
+        specifier: ^2.0.0
+        version: 2.0.0
       '@types/jquery':
         specifier: ^3.5.32
         version: 3.5.32
@@ -778,8 +778,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0(@embroider/compat@3.6.5(@embroider/core@3.4.19(@glint/template@1.5.0))(@glint/template@1.5.0))(@embroider/core@3.4.19(@glint/template@1.5.0))(@embroider/webpack@4.0.8(@embroider/core@3.4.19(@glint/template@1.5.0))(webpack@5.96.1(@swc/core@1.8.0)(esbuild@0.24.0)))
       '@glimmer/component':
-        specifier: ^1.1.2
-        version: 1.1.2(@babel/core@7.26.0)
+        specifier: ^2.0.0
+        version: 2.0.0
       '@glimmer/syntax':
         specifier: ^0.92.3
         version: 0.92.3
@@ -852,8 +852,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0(@embroider/compat@3.6.5(@embroider/core@3.4.19(@glint/template@1.5.0))(@glint/template@1.5.0))(@embroider/core@3.4.19(@glint/template@1.5.0))(@embroider/webpack@4.0.8(@embroider/core@3.4.19(@glint/template@1.5.0))(webpack@5.96.1(@swc/core@1.8.0)(esbuild@0.24.0)))
       '@glimmer/component':
-        specifier: ^1.1.2
-        version: 1.1.2(@babel/core@7.26.0)
+        specifier: ^2.0.0
+        version: 2.0.0
       '@types/jquery':
         specifier: ^3.5.32
         version: 3.5.32
@@ -931,8 +931,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0(@embroider/compat@3.6.5(@embroider/core@3.4.19(@glint/template@1.5.0))(@glint/template@1.5.0))(@embroider/core@3.4.19(@glint/template@1.5.0))(@embroider/webpack@4.0.8(@embroider/core@3.4.19(@glint/template@1.5.0))(webpack@5.96.1(@swc/core@1.8.0)(esbuild@0.24.0)))
       '@glimmer/component':
-        specifier: ^1.1.2
-        version: 1.1.2(@babel/core@7.26.0)
+        specifier: ^2.0.0
+        version: 2.0.0
       '@types/jquery':
         specifier: ^3.5.32
         version: 3.5.32
@@ -1010,8 +1010,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0(@embroider/compat@3.6.5(@embroider/core@3.4.19(@glint/template@1.5.0))(@glint/template@1.5.0))(@embroider/core@3.4.19(@glint/template@1.5.0))(@embroider/webpack@4.0.8(@embroider/core@3.4.19(@glint/template@1.5.0))(webpack@5.96.1(@swc/core@1.8.0)(esbuild@0.24.0)))
       '@glimmer/component':
-        specifier: ^1.1.2
-        version: 1.1.2(@babel/core@7.26.0)
+        specifier: ^2.0.0
+        version: 2.0.0
       '@types/jquery':
         specifier: ^3.5.32
         version: 3.5.32
@@ -2171,6 +2171,10 @@ packages:
   '@glimmer/component@1.1.2':
     resolution: {integrity: sha512-XyAsEEa4kWOPy+gIdMjJ8XlzA3qrGH55ZDv6nA16ibalCR17k74BI0CztxuRds+Rm6CtbUVgheCVlcCULuqD7A==}
     engines: {node: 6.* || 8.* || >= 10.*}
+
+  '@glimmer/component@2.0.0':
+    resolution: {integrity: sha512-eATSzBOUm0MZ9+YfJx7Y5p3gbwnaeMzLSSsCDn1ihDtUOIm5YYEV0ee0G7tXt/uKxowt8tXYn/EMbI9OlRF0CA==}
+    engines: {node: '>= 18'}
 
   '@glimmer/destroyable@0.84.3':
     resolution: {integrity: sha512-4tUw5UR4ntuySPvbcWyCMRjqxMJMV1GewjU3zGq22XvuBVFfq2K9WmuYV9H9FHg8X0MgDwcus+LjxrVSel39Sw==}
@@ -10473,6 +10477,13 @@ snapshots:
       - '@babel/core'
       - supports-color
 
+  '@glimmer/component@2.0.0':
+    dependencies:
+      '@embroider/addon-shim': 1.9.0
+      '@glimmer/env': 0.1.7
+    transitivePeerDependencies:
+      - supports-color
+
   '@glimmer/destroyable@0.84.3':
     dependencies:
       '@glimmer/env': 0.1.7
@@ -10645,17 +10656,17 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@glint/environment-ember-loose@1.5.0(@glimmer/component@1.1.2(@babel/core@7.26.0))(@glint/template@1.5.0)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.2.0(@babel/core@7.26.0))':
+  '@glint/environment-ember-loose@1.5.0(@glimmer/component@2.0.0)(@glint/template@1.5.0)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.2.0(@babel/core@7.26.0))':
     dependencies:
-      '@glimmer/component': 1.1.2(@babel/core@7.26.0)
+      '@glimmer/component': 2.0.0
       '@glint/template': 1.5.0
     optionalDependencies:
       ember-cli-htmlbars: 6.3.0
       ember-modifier: 4.2.0(@babel/core@7.26.0)(ember-source@5.5.0(@babel/core@7.26.0)(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.96.1(@swc/core@1.8.0)(esbuild@0.24.0)))
 
-  '@glint/environment-ember-template-imports@1.5.0(@glint/environment-ember-loose@1.5.0(@glimmer/component@1.1.2(@babel/core@7.26.0))(@glint/template@1.5.0)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.2.0(@babel/core@7.26.0)))(@glint/template@1.5.0)':
+  '@glint/environment-ember-template-imports@1.5.0(@glint/environment-ember-loose@1.5.0(@glimmer/component@2.0.0)(@glint/template@1.5.0)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.2.0(@babel/core@7.26.0)))(@glint/template@1.5.0)':
     dependencies:
-      '@glint/environment-ember-loose': 1.5.0(@glimmer/component@1.1.2(@babel/core@7.26.0))(@glint/template@1.5.0)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.2.0(@babel/core@7.26.0))
+      '@glint/environment-ember-loose': 1.5.0(@glimmer/component@2.0.0)(@glint/template@1.5.0)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.2.0(@babel/core@7.26.0))
       '@glint/template': 1.5.0
       content-tag: 2.0.2(patch_hash=bol33qklj5obdzzczeu3obxk34)
 
