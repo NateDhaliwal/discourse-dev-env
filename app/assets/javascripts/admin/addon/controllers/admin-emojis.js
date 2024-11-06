@@ -33,6 +33,15 @@ export default class AdminEmojisController extends Controller {
     return [ALL_FILTER].concat(this.emojiGroups);
   }
 
+  get siteSettingsRouteModel() {
+    return {
+      category_id: "all_results",
+      queryParams: {
+        filter: "emoji",
+      },
+    };
+  }
+
   @computed("model.[]", "filter")
   get filteredEmojis() {
     if (!this.filter || this.filter === ALL_FILTER) {
