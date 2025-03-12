@@ -1,13 +1,16 @@
 export const BEHAVIOR_TRANSFORMERS = Object.freeze([
   // use only lowercase names
+  "composer-position:correct-scroll-position",
   "composer-position:editor-touch-move",
   "discovery-topic-list-load-more",
   "full-page-search-load-more",
   "post-menu-toggle-like-action",
+  "topic-list-item-click",
 ]);
 
 export const VALUE_TRANSFORMERS = Object.freeze([
   // use only lowercase names
+  "admin-reports-show-query-params",
   "category-available-views",
   "category-description-text",
   "category-display-name",
@@ -28,6 +31,7 @@ export const VALUE_TRANSFORMERS = Object.freeze([
   "parent-category-row-class-mobile",
   "post-menu-buttons",
   "small-user-attrs",
+  "tag-separator",
   "topic-list-class",
   "topic-list-columns",
   "topic-list-header-sortable-column",

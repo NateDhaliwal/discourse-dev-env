@@ -59,13 +59,10 @@ bg:
           fields:
             restricted_tags:
               label: Тагове
-            restricted_category:
-              label: Категория
-            restricted_group:
-              label: Група
-            restricted_groups:
-              label: Групи
+            restricted_categories:
+              label: Категории
           created: Създадени
+          topics: Теми
         category_created_edited:
           fields:
             restricted_category:

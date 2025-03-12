@@ -316,9 +316,9 @@ de:
     site_settings:
       invalid_site_setting: "Es ist keine Einstellung mit dem Namen „%{name}“ vorhanden"
       invalid_category_id: "Du hast eine Kategorie angegeben, die nicht existiert"
-      site_setting_is_hidden: "Du darfst versteckte Einstellungen nicht ändern"
-      site_setting_is_shadowed_globally: "Du kannst diese Einstellung nicht ändern, da sie global konfiguriert ist"
-      site_setting_is_unconfigurable: "Du darfst keine unkonfigurierbaren Einstellungen ändern"
+      site_settings_are_hidden: "Du darfst keine versteckten Einstellungen ändern: %{setting_names}"
+      site_settings_are_shadowed_globally: "Du kannst diese Einstellungen nicht ändern, da sie global konfiguriert sind: %{setting_names}"
+      site_settings_are_unconfigurable: "Du darfst keine unkonfigurierbaren Einstellungen ändern: %{setting_names}"
       invalid_choice:
         one: "„%{name}“ ist eine ungültige Option."
         other: "„%{name}“ sind ungültige Optionen."
@@ -340,7 +340,7 @@ de:
       slow_down_crawler_user_agent_must_be_at_least_3_characters: "Browserkennungen müssen mindestens 3 Zeichen lang sein, um zu verhindern, dass legitime Benutzer versehentlich einer Durchsatzratenbegrenzung unterworfen werden."
       slow_down_crawler_user_agent_cannot_be_popular_browsers: "Du kannst keinen der folgenden Werte zu der Einstellung hinzufügen: %{values}."
       strip_image_metadata_cannot_be_disabled_if_composer_media_optimization_image_enabled: "Du kannst das Entfernen der Bild-Metadaten nicht deaktivieren, wenn „composer media optimization image enabled“ aktiviert ist. Deaktiviere „composer media optimization image enabled“, bevor du das Entfernen der Bild-Metadaten deaktivierst."
-      twitter_summary_large_image_no_svg: "Twitter-Zusammenfassungsbilder, die für twitter:image-Metadaten verwendet werden, können keine .svg-Bilder sein."
+      x_summary_large_image_no_svg: "Twitter-Zusammenfassungsbilder, die für twitter:image-Metadaten verwendet werden, können keine .svg-Bilder sein."
       tl0_and_anonymous_flag: "Für anonyme Benutzer muss entweder „site contact email“ oder „email address to report illegal content“ angegeben werden."
     conflicting_google_user_id: 'Die Google-Konto-ID für dieses Konto hat sich geändert; das Einschreiten des Teams ist aus Sicherheitsgründen erforderlich. Bitte kontaktiere das Team und verweise es auf <br><a href="https://meta.discourse.org/t/76575">https://meta.discourse.org/t/76575</a>'
     onebox:
@@ -1662,6 +1662,7 @@ de:
     search_query_log_max_retention_days: "Maximale Aufbewahrungszeit für Suchanfragen, in Tagen."
     search_ignore_accents: "Wenn diese Einstellung aktiviert ist, werden Akzentzeichen in Suchanfragen ignoriert, sodass Benutzer auch dann Ergebnisse finden können, wenn sie nicht die richtigen Akzente eingeben."
     search_default_sort_order: "Standard-Sortierreihenfolge für die Ganzseiten-Suche"
+    search_experience: "Die Standardposition und -darstellung der Suche auf Desktop-Geräten"
     category_search_priority_low_weight: "Gewichtung der Rangfolge für geringe Kategorie-Suchpriorität."
     category_search_priority_high_weight: "Gewichtung der Rangfolge für hohe Kategorie-Suchpriorität."
     default_composer_category: "Die Kategorie, die verwendet wird, um das Kategorie-Drop-down beim Erstellen eines neuen Themas vorab auszufüllen."
@@ -1727,7 +1728,7 @@ de:
     favicon: "Ein Favicon für die Website, siehe <a href='https://de.wikipedia.org/wiki/Favicon' target='_blank'>https://de.wikipedia.org/wiki/Favicon</a>. Damit es auch über eine CDN richtig funktioniert, muss es ein PNG sein. Wird auf eine Größe von 32 x 32 gesetzt. Falls leer, wird large_icon verwendet."
     apple_touch_icon: "Symbol für Apple-Touch-Geräte. Ein transparenter Hintergrund ist nicht empfehlenswert. Die Größe wird automatisch auf 180 x 180 angepasst. Wenn du nichts angibst, wird large_icon verwendet."
     opengraph_image: "Standard-Opengraph-Bild. Wird verwendet, wenn die Seite kein anderes passendes Bild hat. Falls leer, wird large_icon verwendet."
-    twitter_summary_large_image: "Twitter-Karte „summary large image“ (sollte mindestens 280 Pixel in der Breite und mindestens 150 Pixel in der Höhe sein, keine .svg-Datei). Wenn das Feld leer gelassen wird, werden die regulären Metadaten der Karte aus dem opengraph_image generiert, sofern es sich nicht ebenfalls um eine .svg-Datei handelt"
+    x_summary_large_image: "Twitter-Karte „summary large image“ (sollte mindestens 280 Pixel in der Breite und mindestens 150 Pixel in der Höhe sein, keine .svg-Datei). Wenn das Feld leer gelassen wird, werden die regulären Metadaten der Karte aus dem opengraph_image generiert, sofern es sich nicht ebenfalls um eine .svg-Datei handelt"
     notification_email: "Die E-Mail-Adresse, die als „from:“-Absender aller wichtigen System-E-Mails benutzt wird. Die angegebene Domain sollte über korrekte SPF-, DKIM- und Reverse-PTR-Einträge verfügen, damit E-Mails sicher zugestellt werden können."
     email_custom_headers: "Eine durch senkrechte Striche („|“) getrennte Liste von eigenen E-Mail-Headern"
     email_subject: "Anpassbares Betreff-Format für Standard-E-Mails. Siehe <a href='https://meta.discourse.org/t/customize-subject-format-for-standard-emails/20801' target='_blank'>https://meta.discourse.org/t/customize-subject-format-for-standard-emails/20801</a>"
@@ -2291,7 +2292,7 @@ de:
     auto_handle_queued_age: "Bearbeite Einträge automatisch, die so viele Tage auf Überprüfung warten. Meldungen werden ignoriert. Beiträge und Benutzer in der Warteschlange werden zurückgewiesen. Setze den Wert auf 0, um diese Funktion zu deaktivieren."
     penalty_step_hours: "Standardstrafen für das Stummschalten oder Sperren von Benutzern in Stunden. Beim ersten Verstoß wird standardmäßig der erste Wert verwendet, beim zweiten Verstoß standardmäßig der zweite Wert usw."
     penalty_include_post_message: "Füge automatisch die Nachricht des beanstandeten Beitrags in die E-Mail-Vorlage ein, wenn du einen Benutzer stummschaltest oder sperrst"
-    svg_icon_subset: "Füge zusätzliche FontAwesome-Symbole hinzu, die du in deine Assets aufnehmen möchtest. Verwende das Präfix „fa-“ für ausgefüllte Icons, „far-“ für normale Icons und „fab-“ für Markensymbole."
+    svg_icon_subset: "Füge zusätzliche FontAwesome-Symbole hinzu, die du in deine Assets aufnehmen möchtest. Verwende kein Präfix für ausgefüllte Icons, „far-“ für normale Icons und „fab-“ für Markensymbole."
     max_prints_per_hour_per_user: "Maximale Anzahl von /print-Seitenaufrufen (auf 0 setzen, um das Drucken zu deaktivieren)"
     full_name_requirement: "Mache das Feld mit dem vollständigen Namen zu einem erforderlichen, optionalen oder optionalen, aber ausgeblendeten Feld im Registrierungsformular."
     interface_color_selector: "Lege fest, wo der Hell-/Dunkelmodus-Wahlschalter für die Schnittstellenfarbe verfügbar ist."
@@ -2474,7 +2475,6 @@ de:
     glimmer_post_menu_mode: "Lege fest, ob die neue Implementierung des „glimmer“-Beitragmenüs verwendet werden soll. „auto“ wird automatisch aktiviert, sobald alle deine Themes und Plug-ins bereit sind. Diese Implementierung befindet sich in der Entwicklung und ist nicht für den produktiven Einsatz gedacht. Entwickle keine Themes/Plug-ins dafür, bis die Implementierung fertiggestellt und angekündigt ist."
     glimmer_post_menu_groups: "Aktiviere die neue „glimmer“-Beitragmenü-Implementierung im „auto“-Modus für die angegebenen Benutzergruppen. Diese Implementierung befindet sich in der Entwicklung und ist nicht für den produktiven Einsatz gedacht. Entwickle keine Themes/Plug-ins dafür, bis die Implementierung fertiggestellt und angekündigt ist."
     experimental_form_templates: "Aktiviere die Funktion für Formularvorlagen. Verwalte die Vorlagen unter <a href='%{base_path}/admin/customize/form-templates'>Anpassen / Vorlagen</a>."
-    admin_sidebar_enabled_groups: "Aktiviere die Seitenleistennavigation für die Administrator-Benutzeroberfläche für die angegebenen Gruppen, wodurch die Administrator-Navigationsschaltflächen der obersten Ebene ersetzt werden."
     lazy_load_categories_groups: "Lazy Loading von Kategorieinformationen nur für Benutzer dieser Gruppen. Dies verbessert die Leistung auf Websites mit vielen Kategorien."
     experimental_auto_grid_images: "Wickelt Bilder automatisch in [grid]-Tags ein, wenn 3 oder mehr Bilder im Composer hochgeladen werden."
     page_loading_indicator: "Die Ladeanzeige konfigurieren, die bei der Seitennavigation in Discourse erscheint. „Spinner“ ist ein ganzseitiger Indikator. „Slider“ zeigt einen schmalen Balken am oberen Rand des Bildschirms an."
@@ -2524,8 +2524,10 @@ de:
       discourse_connect_url_is_empty: "Du musst eine „discourse connect url'“ festlegen, bevor du diese Einstellung aktivierst."
       enable_local_logins_disabled: "Du musst erst „enable local logins“ aktivieren, bevor du diese Einstellung aktivierst."
       min_username_length_exists: "Du kannst die Mindestlänge von Benutzernamen nicht über den kürzesten Benutzernamen (%{username}) setzen."
+      min_group_name_length_exists: "Du kannst die minimale Länge von Benutzernamen nicht länger als den kürzesten Gruppennamen (%{group_name}) setzen."
       min_username_length_range: "Du kannst das Minimum nicht über das Maximum setzen."
       max_username_length_exists: "Du kannst die maximale Länge von Benutzernamen nicht unter den längsten Benutzernamen (%{username}) setzen."
+      max_group_name_length_exists: "Du kannst die maximale Länge von Benutzernamen nicht kürzer als längsten Gruppennamen (%{group_name}) setzen."
       max_username_length_range: "Du kannst das Maximum nicht unter das Minimum setzen."
       invalid_hex_value: "Farbwerte müssen als 6-stellige Hexadezimalcodes angegeben werden."
       empty_selectable_avatars: "Du musst zunächst mindestens zwei auswählbare Avatare hochladen, bevor du diese Einstellung aktivieren kannst."
@@ -5069,6 +5071,7 @@ de:
       revoked: Widerrufen
       restored: Wiederhergestellt
     bulk_user_delete: "bei einem Massenlöschvorgang gelöscht"
+    cli_bulk_post_delete: "Massenlöschung aus dem rake Task"
   reviewables:
     already_handled: "Vielen Dank, aber wir haben diesen Beitrag bereits überprüft und festgestellt, dass er nicht erneut gemeldet werden muss."
     already_handled_and_user_not_exist: "Danke, aber jemand hat es bereits überprüft und dieser Benutzer existiert nicht mehr."
@@ -5092,7 +5095,9 @@ de:
       new_topics_unless_trust_level: "Themen von Benutzern auf niedrigen Vertrauensstufen müssen von Team-Mitgliedern genehmigt werden. Siehe %{link}."
       fast_typer: "Ein neuer Benutzer hat seinen ersten Beitrag verdächtig schnell getippt, Verdacht auf Bot oder Spammer-Verhalten. Siehe %{link}."
       auto_silence_regex: "Neuer Benutzer, dessen erster Beitrag mit der %{link}-Einstellung übereinstimmt."
-      watched_word: "Dieser Beitrag enthielt ein beobachtetes Wort. Siehe %{link}."
+      watched_word:
+        one: "Dieser Beitrag enthält ein beobachtetes Wort, das gemeldete Wort ist: %{words}. Für weitere Informationen prüfe die %{link}."
+        other: "Dieser Beitrag enthält beobachtete Wörter, die gemeldeten Wörter sind: %{words}. Für weitere Informationen prüfe die %{link}."
       staged: "Neue Themen und Beiträge für vorbereitete Benutzer müssen von Team-Mitgliedern genehmigt werden. Siehe %{link}."
       category: "Beiträge in dieser Kategorie benötigen manuelle Genehmigung von Team-Mitgliedern. Siehe %{link}."
       must_approve_users: "Alle neuen Benutzer müssen von Team-Mitgliedern genehmigt werden. Siehe %{link}."
@@ -5103,8 +5108,10 @@ de:
       contains_media: "Dieser Beitrag enthält eingebettete Medien. Siehe %{link}."
       queued_by_staff: "Ein Team-Mitglied ist der Meinung, dass dieser Beitrag überprüft werden muss. Bis dahin wird er versteckt bleiben."
       links:
-        watched_word: Liste der beobachteten Wörter
+        watched_word: Einstellungen für beobachtete Wörter
         category: Kategorie-Einstellungen
+      no_context:
+        watched_word: "Dieser Beitrag enthält ein beobachtetes Wort. Für weitere Informationen prüfe die %{link}."
     actions:
       agree:
         title: "Ja"

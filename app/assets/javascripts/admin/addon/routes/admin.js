@@ -14,6 +14,7 @@ export default class AdminRoute extends DiscourseRoute {
   @service currentUser;
   @service adminSidebarStateManager;
   @service modal;
+
   @tracked initialSidebarState;
 
   titleToken() {
@@ -24,7 +25,7 @@ export default class AdminRoute extends DiscourseRoute {
     if (this.currentUser.use_experimental_admin_search) {
       KeyboardShortcuts.addShortcut(
         `${PLATFORM_KEY_MODIFIER}+/`,
-        () => this.showAdminSearchModal(),
+        (event) => this.showAdminSearchModal(event),
         {
           global: true,
         }
@@ -49,14 +50,14 @@ export default class AdminRoute extends DiscourseRoute {
       });
     }
 
-    if (this.adminSidebarStateManager.currentUserUsingAdminSidebar) {
-      if (!transition?.to.name.startsWith("admin")) {
-        this.adminSidebarStateManager.stopForcingAdminSidebar();
-      }
+    if (!transition?.to.name.startsWith("admin")) {
+      this.adminSidebarStateManager.stopForcingAdminSidebar();
     }
   }
 
-  showAdminSearchModal() {
+  showAdminSearchModal(event) {
+    event.preventDefault();
+    event.stopPropagation();
     this.modal.show(AdminSearchModal);
   }
 }

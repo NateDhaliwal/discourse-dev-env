@@ -62,13 +62,10 @@ pt:
           fields:
             restricted_tags:
               label: Etiquetas
-            restricted_category:
-              label: Categoria
-            restricted_group:
-              label: Grupo
-            restricted_groups:
-              label: Grupos
+            restricted_categories:
+              label: Categorias
           created: Criado
+          topics: Tópicos
         category_created_edited:
           fields:
             restricted_category:

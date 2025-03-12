@@ -314,9 +314,6 @@ fr:
     site_settings:
       invalid_site_setting: "Aucun paramètre nommé « %{name} » n'existe"
       invalid_category_id: "Vous avez spécifiez une catégorie qui n'existe pas"
-      site_setting_is_hidden: "Vous n'avez pas l'autorisation de modifier les paramètres masqués"
-      site_setting_is_shadowed_globally: "Vous ne pouvez pas modifier ce paramètre, car il est configuré globalement"
-      site_setting_is_unconfigurable: "Vous n'avez pas l'autorisation de modifier les paramètres non configurables"
       invalid_choice:
         one: "« %{name} » n'est pas un choix valide."
         other: "« %{name} » ne sont pas des choix valides."
@@ -338,7 +335,7 @@ fr:
       slow_down_crawler_user_agent_must_be_at_least_3_characters: "Les agents utilisateurs doivent comporter au moins 3 caractères pour éviter de limiter accidentellement le débit des utilisateurs légitimes."
       slow_down_crawler_user_agent_cannot_be_popular_browsers: "Vous ne pouvez ajouter aucune des valeurs suivantes au paramètre : %{values}."
       strip_image_metadata_cannot_be_disabled_if_composer_media_optimization_image_enabled: "Vous ne pouvez pas désactiver le retrait des métadonnées de l'image si l'option « Image d'optimisation des contenus multimédias du compositeur activée » est activée. Désactivez cette option avant de désactiver les métadonnées de l'image."
-      twitter_summary_large_image_no_svg: "Les images de résumé Twitter utilisées pour les métadonnées twitter:image ne peuvent pas être des images .svg."
+      x_summary_large_image_no_svg: "Les images de résumé Twitter utilisées pour les métadonnées twitter:image ne peuvent pas être des images .svg."
       tl0_and_anonymous_flag: "Pour les utilisateurs anonymes, une « site contact email » ou une « email address to report illegal content » doit être fournie."
     conflicting_google_user_id: 'Le Google Account ID a changé pour ce compte ; un responsable doit intervenir pour des raisons de sécurité. Merci de contacter les responsables et les renvoyer vers <br><a href="https://meta.discourse.org/t/76575">https://meta.discourse.org/t/76575</a>'
     onebox:
@@ -1720,7 +1717,7 @@ fr:
     favicon: "Un favicon pour votre site, voir <a href='https://en.wikipedia.org/wiki/Favicon' target='_blank'>https://fr.wikipedia.org/wiki/Favicon</a> . Pour fonctionner correctement sur un CDN, il doit être au format PNG. Il sera redimensionné en 32x32. Si vous laissez ce champ vide, « large_icon » sera utilisée."
     apple_touch_icon: "Icône utilisée pour les appareils tactiles Apple. Un arrière-plan transparent n'est pas recommandé. Elle sera automatiquement redimensionnée à 180 x 180. Si ce champ est laissé vide, large_icon sera utilisé."
     opengraph_image: "Image opengraph par défaut, utilisée lorsque la page n'a pas d'autre image appropriée. Si vous laissez ce champ vide, « large_icon » sera utilisée"
-    twitter_summary_large_image: "Carte Twitter « Summary Card with Large Image » (sa taille doit être d'au moins 280 en largeur et d'au moins 150 en hauteur et ne peut pas être au format .svg). Si vous laissez ce champ vide, les métadonnées normales de carte sont générées à l'aide d'« opengraph_image » tant que celle-ci n'est pas au format .svg également."
+    x_summary_large_image: "Carte Twitter « Summary Card with Large Image » (sa taille doit être d'au moins 280 en largeur et d'au moins 150 en hauteur et ne peut pas être au format .svg). Si vous laissez ce champ vide, les métadonnées normales de carte sont générées à l'aide d'« opengraph_image » tant que celle-ci n'est pas au format .svg également."
     notification_email: "L'adresse e-mail utilisée pour envoyer les e-mails systèmes essentiels et affichée dans le champ « De ». Le nom de domaine spécifié doit comprendre les informations SPF, DKIM et PTR inversé correctement renseignées pour que l'e-mail arrive à destination."
     email_custom_headers: "Une liste délimitée par des barres verticales d'en-têtes d'e-mail"
     email_subject: "Format du sujet personnalisable pour les e-mails normaux. Voir <a href='https://meta.discourse.org/t/customize-subject-format-for-standard-emails/20801' target='_blank'>https://meta.discourse.org/t/customize-subject-format-for-standard-emails/20801</a>"
@@ -2282,7 +2279,6 @@ fr:
     auto_handle_queued_age: "Après tant de jours écoulés, traiter automatiquement les éléments en attente d'examen. Les signalements seront ignorés, les messages et les utilisateurs en attente d'examen seront rejetés. Réglez cette valeur à 0 pour désactiver cette fonction."
     penalty_step_hours: "Durées par défaut de mise en sourdine ou de suspension des utilisateurs, en heures. La première valeur correspond à la première infraction d'un compte, la deuxième valeur à sa deuxième infraction, etc."
     penalty_include_post_message: "Incluez automatiquement la publication incriminée dans le modèle de message électronique lors de la mise en sourdine ou de la suspension d'un utilisateur"
-    svg_icon_subset: "Ajoutez des icônes FontAwesome supplémentaires que vous souhaitez inclure dans vos ressources. Utilisez le préfixe « fa- » pour les icônes pleines, « far- » pour les icônes normales et « fab- » pour les icônes de marque."
     max_prints_per_hour_per_user: "Nombre maximal d'impressions de pages (défini sur 0 pour désactiver l'impression)"
     full_name_requirement: "Faites du champ du nom complet un champ obligatoire, facultatif ou facultatif mais masqué dans le formulaire d'inscription."
     enable_names: "Autoriser l'affichage des noms complets des utilisateurs dans leur profil, sur leur carte d'utilisateur et dans les e-mails. Décocher pour masquer les noms complets partout."
@@ -2463,7 +2459,6 @@ fr:
     glimmer_post_menu_mode: "Contrôlez si la nouvelle implémentation du menu de publication « glimmer » est utilisée. « auto » s'activera automatiquement une fois que tous vos thèmes et extensions seront prêts. Cette implémentation est en cours de développement et n'est pas destinée à une utilisation en production. Ne développez pas de thèmes/extensions pour cette implémentation avant qu'elle soit finalisée et annoncée."
     glimmer_post_menu_groups: "Activez la nouvelle implémentation du menu de publication « glimmer » en mode « auto » pour les groupes d'utilisateurs spécifiés. Cette implémentation est en cours de développement et n'est pas destinée à une utilisation en production. Ne développez pas de thèmes/extensions pour cette implémentation avant qu'elle soit finalisée et annoncée."
     experimental_form_templates: "Activez la fonctionnalité de modèles de formulaire. Gérez les modèles dans <a href='%{base_path}/admin/customize/form-templates'>Personnaliser/modèles</a>."
-    admin_sidebar_enabled_groups: "Activez la navigation dans la barre latérale pour l'interface utilisateur d'administration pour les groupes spécifiés, qui remplace les boutons de navigation d'administration de niveau supérieur."
     lazy_load_categories_groups: "Chargez en différé les informations de catégorie uniquement pour les utilisateurs de ces groupes. Cela permet d'améliorer les performances sur les sites comportant de nombreuses catégories."
     page_loading_indicator: "Configurer l'indicateur de chargement qui apparaît lors de la navigation dans Discourse. « Spinner » est un indicateur de pleine page. Le « curseur » affiche une barre étroite en haut de l'écran."
     show_user_menu_avatars: "Afficher les avatars des utilisateurs dans le menu utilisateur"
@@ -5089,7 +5084,6 @@ fr:
       new_topics_unless_trust_level: "Les sujets créés par des utilisateurs dont le niveau de confiance est faible doivent être approuvés par un responsable. Voir %{link}."
       fast_typer: "Un nouvel utilisateur a écrit son premier message avec une rapidité suspecte, comportement typique des bots et des spammeurs. Voir %{link}."
       auto_silence_regex: "Nouvel utilisateur dont le premier message contient le motif textuel défini par le paramètre %{link}."
-      watched_word: "Ce message contient un mot surveillé. Voir votre %{link}."
       staged: "Tout nouveau sujet ou message pour les utilisateurs distants doit être approuvé par les responsables. Voir %{link}."
       category: "Les messages de cette catégorie doivent être approuvés manuellement par un responsable. Voir %{link}."
       must_approve_users: "Tous les nouveaux utilisateurs doivent être approuvés par un responsable. Voir %{link}."
@@ -5100,7 +5094,6 @@ fr:
       contains_media: "Ce message contient un ou plusieurs contenus multimédias ou vidéo. Voir %{link}."
       queued_by_staff: "Un responsable a estimé que ce message devait être examiné avant sa publication. Il restera masqué jusqu'à son approbation par un modérateur."
       links:
-        watched_word: liste des mots surveillés
         category: paramètres de la catégorie
     actions:
       agree:

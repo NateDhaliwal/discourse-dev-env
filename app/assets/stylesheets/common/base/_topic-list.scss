@@ -23,8 +23,6 @@
 
 .navigation-container {
   width: 100%;
-
-  --nav-space: 0.75em;
   display: flex;
   flex-wrap: wrap;
 }
@@ -71,6 +69,7 @@
   .select-kit-header {
     height: 100%;
   }
+
   @include breakpoint(mobile-large) {
     .edit-category {
       .d-button-label {
@@ -317,6 +316,7 @@
         border: 1px solid var(--primary-low);
         border-radius: 0.25em;
         min-width: 3em;
+
         @include ellipsis;
 
         > a {

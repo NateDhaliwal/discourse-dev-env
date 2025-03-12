@@ -12,10 +12,6 @@ describe "Admin | Sidebar Navigation", type: :system do
 
   before do
     SiteSetting.navigation_menu = "sidebar"
-    SiteSetting.admin_sidebar_enabled_groups = [
-      Group::AUTO_GROUPS[:admins],
-      Group::AUTO_GROUPS[:moderators],
-    ]
 
     sign_in(admin)
   end
@@ -56,6 +52,7 @@ describe "Admin | Sidebar Navigation", type: :system do
       [
         I18n.t("admin_js.admin.dashboard.title"),
         I18n.t("admin_js.admin.config.users.title"),
+        I18n.t("admin_js.admin.config.search_everything.title"),
         I18n.t("admin_js.admin.config.groups.title"),
         I18n.t("admin_js.admin.config.site_settings.title"),
         I18n.t("admin_js.admin.config.whats_new.title"),
@@ -77,17 +74,6 @@ describe "Admin | Sidebar Navigation", type: :system do
       filter.click_back_to_forum
       expect(page).to have_current_path("/")
       sidebar_dropdown.click
-      expect(sidebar).to have_no_section("admin-root")
-    end
-  end
-
-  context "when the setting is disabled" do
-    before { SiteSetting.admin_sidebar_enabled_groups = "" }
-
-    it "does not show the admin sidebar" do
-      visit("/latest")
-      sidebar.click_link_in_section("community", "admin")
-      expect(page).to have_current_path("/admin")
       expect(sidebar).to have_no_section("admin-root")
     end
   end
@@ -194,6 +180,7 @@ describe "Admin | Sidebar Navigation", type: :system do
       [
         I18n.t("admin_js.admin.dashboard.title"),
         I18n.t("admin_js.admin.config.users.title"),
+        I18n.t("admin_js.admin.config.search_everything.title"),
         I18n.t("admin_js.admin.config.groups.title"),
         I18n.t("admin_js.admin.config.site_settings.title"),
         I18n.t("admin_js.admin.config.whats_new.title"),
@@ -216,6 +203,7 @@ describe "Admin | Sidebar Navigation", type: :system do
       [
         I18n.t("admin_js.admin.dashboard.title"),
         I18n.t("admin_js.admin.config.users.title"),
+        I18n.t("admin_js.admin.config.search_everything.title"),
         I18n.t("admin_js.admin.config.groups.title"),
         I18n.t("admin_js.admin.config.site_settings.title"),
         I18n.t("admin_js.admin.config.whats_new.title"),
@@ -262,11 +250,12 @@ describe "Admin | Sidebar Navigation", type: :system do
     )
 
     sidebar.toggle_all_sections
-    expect(page).to have_selector(".sidebar-section-link-content-text", count: 5)
+    expect(page).to have_selector(".sidebar-section-link-content-text", count: 6)
     expect(all(".sidebar-section-link-content-text").map(&:text)).to eq(
       [
         I18n.t("admin_js.admin.dashboard.title"),
         I18n.t("admin_js.admin.config.users.title"),
+        I18n.t("admin_js.admin.config.search_everything.title"),
         I18n.t("admin_js.admin.config.groups.title"),
         I18n.t("admin_js.admin.config.site_settings.title"),
         I18n.t("admin_js.admin.config.whats_new.title"),
@@ -330,6 +319,7 @@ describe "Admin | Sidebar Navigation", type: :system do
       [
         I18n.t("admin_js.admin.dashboard.title"),
         I18n.t("admin_js.admin.config.users.title"),
+        I18n.t("admin_js.admin.config.search_everything.title"),
         I18n.t("admin_js.admin.config.groups.title"),
         I18n.t("admin_js.admin.config.whats_new.title"),
         I18n.t("admin_js.admin.config.reports.title"),

@@ -341,9 +341,9 @@ en:
     site_settings:
       invalid_site_setting: "No setting named '%{name}' exists"
       invalid_category_id: "You specified a category that does not exist"
-      site_setting_is_hidden: "You are not allowed to change hidden settings"
-      site_setting_is_shadowed_globally: "You cannot change this setting because it is globally configured"
-      site_setting_is_unconfigurable: "You are not allowed to change unconfigurable settings"
+      site_settings_are_hidden: "You are not allowed to change hidden settings: %{setting_names}"
+      site_settings_are_shadowed_globally: "You cannot change those settings because they are globally configured: %{setting_names}"
+      site_settings_are_unconfigurable: "You are not allowed to change unconfigurable settings: %{setting_names}"
       invalid_choice:
         one: "'%{name}' is an invalid choice."
         other: "'%{name}' are invalid choices."
@@ -365,7 +365,7 @@ en:
       slow_down_crawler_user_agent_must_be_at_least_3_characters: "User agents must be at least 3 characters long to avoid accidentally rate-limiting legitimate users."
       slow_down_crawler_user_agent_cannot_be_popular_browsers: "You cannot add any of the following values to the setting: %{values}."
       strip_image_metadata_cannot_be_disabled_if_composer_media_optimization_image_enabled: "You cannot disable strip image metadata if 'composer media optimization image enabled' is enabled. Disable 'composer media optimization image enabled' before disabling strip image metadata."
-      twitter_summary_large_image_no_svg: "Twitter summary images used for twitter:image metadata cannot be an .svg image."
+      x_summary_large_image_no_svg: "Twitter summary images used for twitter:image metadata cannot be an .svg image."
       tl0_and_anonymous_flag: "Either 'site contact email' or 'email address to report illegal content' must be provided for anonymous users."
 
     conflicting_google_user_id: 'The Google Account ID for this account has changed; staff intervention is required for security reasons. Please contact staff and point them to <br><a href="https://meta.discourse.org/t/76575">https://meta.discourse.org/t/76575</a>'
@@ -1766,6 +1766,7 @@ en:
     search_query_log_max_retention_days: "Maximum amount of time to keep search queries, in days."
     search_ignore_accents: "Accent marks in search queries are disregarded if this setting is enabled, allowing users to find results even if they don't input the correct accents."
     search_default_sort_order: "Default sort order for full-page search"
+    search_experience: "The default position and appearance of search on desktop devices"
     category_search_priority_low_weight: "Weight applied to ranking for low category search priority."
     category_search_priority_high_weight: "Weight applied to ranking for high category search priority."
     default_composer_category: "The category used to pre-populate the category dropdown when creating a new topic."
@@ -1833,7 +1834,7 @@ en:
     favicon: "A favicon for your site, see <a href='https://en.wikipedia.org/wiki/Favicon' target='_blank'>https://en.wikipedia.org/wiki/Favicon</a>. To work correctly over a CDN it must be a png. Will be resized to 32x32. If left blank, large_icon will be used."
     apple_touch_icon: "Icon used for Apple touch devices. A transparent background is not reccomended. Will be automatically resized to 180x180. If left blank, large_icon will be used."
     opengraph_image: "Default opengraph image, used when the page has no other suitable image. If left blank, large_icon will be used"
-    twitter_summary_large_image: "Twitter card 'summary large image' (should be at least 280 in width, and at least 150 in height, cannot be .svg). If left blank, regular card metadata is generated using the opengraph_image, as long as that is not also a .svg"
+    x_summary_large_image: "Twitter card 'summary large image' (should be at least 280 in width, and at least 150 in height, cannot be .svg). If left blank, regular card metadata is generated using the opengraph_image, as long as that is not also a .svg"
 
     notification_email: "The from: email address used when sending all essential system emails. The domain specified here must have SPF, DKIM and reverse PTR records set correctly for email to arrive."
     email_custom_headers: "A pipe-delimited list of custom email headers"
@@ -2532,7 +2533,7 @@ en:
     auto_handle_queued_age: "Automatically handle records that are waiting to be reviewed after this many days. Flags will be ignored. Queued posts and users will be rejected. Set to 0 to disable this feature."
     penalty_step_hours: "Default penalties for silencing or suspending users in hours. First offense defaults to the first value, second offense defaults to the second value, etc."
     penalty_include_post_message: "Automatically include offending post message in email message template when silencing or suspending a user"
-    svg_icon_subset: "Add additional FontAwesome icons that you would like to include in your assets. Use prefix 'fa-' for solid icons, 'far-' for regular icons and 'fab-' for brand icons."
+    svg_icon_subset: "Add additional FontAwesome icons that you would like to include in your assets. Use no prefix for solid icons, 'far-' for regular icons and 'fab-' for brand icons."
     max_prints_per_hour_per_user: "Maximum number of /print page impressions (set to 0 to disable printing)"
 
     full_name_requirement: "Make the full name field a required, optional, or optional but hidden field in the signup form."
@@ -2752,7 +2753,6 @@ en:
     glimmer_post_menu_mode: "Control whether the new 'glimmer' post menu implementation is used. 'auto' will enable automatically once all your themes and plugins are ready. This implementation is under active development, and is not intended for production use. Do not develop themes/plugins against it until the implementation is finalized and announced."
     glimmer_post_menu_groups: "Enable the new 'glimmer' post menu implementation in 'auto' mode for the specified user groups. This implementation is under active development, and is not intended for production use. Do not develop themes/plugins against it until the implementation is finalized and announced."
     experimental_form_templates: "Enable the form templates feature. Manage the templates at <a href='%{base_path}/admin/customize/form-templates'>Customize / Templates</a>."
-    admin_sidebar_enabled_groups: "Enable sidebar navigation for the admin UI for the specified groups, which replaces the top-level admin navigation buttons."
     lazy_load_categories_groups: "Lazy load category information only for users of these groups. This improves performance on sites with many categories."
     experimental_auto_grid_images: "Automatically wraps images in [grid] tags when 3 or more images are uploaded in the composer."
     page_loading_indicator: "Configure the loading indicator which appears during page navigations within Discourse. 'Spinner' is a full page indicator. 'Slider' shows a narrow bar at the top of the screen."
@@ -4016,10 +4016,15 @@ en:
     header_instructions: ""
     reply_by_email: "[Visit Topic](%{base_url}%{url}) or reply to this email to respond."
     reply_by_email_pm: "[Visit Message](%{base_url}%{url}) or reply to this email to respond to %{participants}."
+    reply_by_email_button_only: "[Visit Topic](%{base_url}%{url})"
+    reply_by_email_pm_button_only: "[Visit Message](%{base_url}%{url})"
     only_reply_by_email: "Reply to this email to respond."
     only_reply_by_email_pm: "Reply to this email to respond to %{participants}."
+    only_reply_by_email_pm_button_only: "[Visit Message](%{base_url}%{url})"
     visit_link_to_respond: "[Visit Topic](%{base_url}%{url}) to respond."
     visit_link_to_respond_pm: "[Visit Message](%{base_url}%{url}) to respond to %{participants}."
+    visit_link_to_respond_button_only: "[Visit Topic](%{base_url}%{url})"
+    visit_link_to_respond_pm_button_only: "[Visit Message](%{base_url}%{url})"
     reply_above_line: "## Please type your reply above this line. ##"
 
     posted_by: "Posted by %{username} on %{post_date}"
@@ -5559,6 +5564,7 @@ en:
       revoked: Revoked
       restored: Restored
     bulk_user_delete: "deleted in a bulk delete operation"
+    cli_bulk_post_delete: "Bulk deleted from rake task"
 
   reviewables:
     already_handled: "Thanks, but we've already reviewed that post and determined it does not need to be flagged again."
@@ -5583,7 +5589,9 @@ en:
       new_topics_unless_trust_level: "Users at low trust levels must have topics approved by staff. See %{link}."
       fast_typer: "New user typed their first post suspiciously fast, suspected bot or spammer behavior. See %{link}."
       auto_silence_regex: "New user whose first post matches the %{link} setting."
-      watched_word: "This post included a Watched Word. See your %{link}."
+      watched_word:
+        one: "This post included a Watched Word, the flagged word is: %{words}. Check the %{link} for more."
+        other: "This post included Watched Words, the flagged words are: %{words}. Check the %{link} for more."
       staged: "New topics and posts for staged users must be approved by staff. See %{link}."
       category: "Posts in this category require manual approval by staff. See the %{link}."
       must_approve_users: "All new users must be approved by staff. See %{link}."
@@ -5594,8 +5602,10 @@ en:
       contains_media: "This post includes embedded media. See %{link}."
       queued_by_staff: "A staff member thinks this post needs review. It'll remain hidden until then."
       links:
-        watched_word: list of watched words
+        watched_word: watched word settings
         category: category settings
+      no_context:
+        watched_word: "This post included a Watched Word. Check the %{link} for more."
 
     actions:
       agree:
