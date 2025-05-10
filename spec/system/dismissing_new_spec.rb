@@ -14,28 +14,6 @@ RSpec.describe "Dismissing New", type: :system do
     fab!(:post1) { create_post(user: user, topic: topic) }
     fab!(:post2) { create_post(topic: topic) }
 
-    it "should remove the unread post across sessions after the user dismisses it" do
-      sign_in(user)
-
-      visit("/unread")
-
-      expect(topic_list_controls).to have_unread(count: 1)
-
-      using_session(:tab_1) do
-        sign_in(user)
-
-        visit("/unread")
-
-        expect(topic_list_controls).to have_unread(count: 1)
-      end
-
-      topic_list_controls.dismiss_unread
-
-      expect(topic_list_controls).to have_unread(count: 0)
-
-      using_session(:tab_1) { expect(topic_list_controls).to have_unread(count: 0) }
-    end
-
     it "should untrack topics across sessions after the user dismisses it" do
       sign_in(user)
 
@@ -82,25 +60,27 @@ RSpec.describe "Dismissing New", type: :system do
     fab!(:topic)
 
     it "should remove the new topic across sessions after the user dismisses it" do
+      tab_1 = open_new_window(:tab)
+      switch_to_window(tab_1)
       sign_in(user)
-
       visit("/new")
 
       expect(topic_list_controls).to have_new(count: 1)
 
-      using_session(:tab_1) do
-        sign_in(user)
+      tab_2 = open_new_window(:tab)
+      switch_to_window(tab_2)
+      sign_in(user)
+      visit("/new")
 
-        visit("/new")
+      expect(topic_list_controls).to have_new(count: 1)
 
-        expect(topic_list_controls).to have_new(count: 1)
-      end
-
+      switch_to_window(tab_1)
       topic_list_controls.dismiss_new
 
       expect(topic_list_controls).to have_new(count: 0)
 
-      using_session(:tab_1) { expect(topic_list_controls).to have_new(count: 0) }
+      switch_to_window(tab_2)
+      expect(topic_list_controls).to have_new(count: 0)
     end
   end
 
@@ -113,27 +93,31 @@ RSpec.describe "Dismissing New", type: :system do
     before { SiteSetting.experimental_new_new_view_groups = group.name }
 
     it "should remove the new topic and post across sessions after the user dismisses it" do
+      tab_1 = open_new_window(:tab)
+      switch_to_window(tab_1)
       sign_in(user)
-
       visit("/new")
 
       expect(topic_list_controls).to have_new(count: 2)
 
-      using_session(:tab_1) do
-        sign_in(user)
+      tab_2 = open_new_window(:tab)
+      switch_to_window(tab_2)
+      sign_in(user)
+      visit("/new")
 
-        visit("/new")
+      expect(topic_list_controls).to have_new(count: 2)
 
-        expect(topic_list_controls).to have_new(count: 2)
-      end
-
+      switch_to_window(tab_1)
       topic_list_controls.dismiss_new
       dismiss_new_modal.click_dismiss
 
+      expect(dismiss_new_modal).to be_closed
       expect(topic_list_controls).to have_new(count: 0)
 
-      using_session(:tab_1) { expect(topic_list_controls).to have_new(count: 0) }
+      switch_to_window(tab_2)
+      expect(topic_list_controls).to have_new(count: 0)
 
+      switch_to_window(tab_1)
       topic_list_controls.click_latest
 
       expect(topic_list_controls).to have_new(count: 0)

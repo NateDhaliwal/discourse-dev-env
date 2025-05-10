@@ -3,9 +3,11 @@ import { setOwner } from "@ember/owner";
 import { next } from "@ember/runloop";
 import $ from "jquery";
 import { lift, setBlockType, toggleMark, wrapIn } from "prosemirror-commands";
+import { Slice } from "prosemirror-model";
 import { liftListItem, sinkListItem } from "prosemirror-schema-list";
 import { TextSelection } from "prosemirror-state";
 import { bind } from "discourse/lib/decorators";
+import escapeRegExp from "discourse/lib/escape-regexp";
 import { i18n } from "discourse-i18n";
 
 /**
@@ -129,9 +131,10 @@ export default class ProsemirrorTextManipulation {
 
   insertBlock(block) {
     const doc = this.convertFromMarkdown(block);
-    const node = doc.content.firstChild;
 
-    const tr = this.view.state.tr.replaceSelectionWith(node);
+    const tr = this.view.state.tr.replaceSelection(
+      new Slice(doc.content, 0, 0)
+    );
     if (!tr.selection.$from.nodeAfter) {
       tr.setSelection(new TextSelection(tr.doc.resolve(tr.selection.from + 1)));
     }
@@ -191,13 +194,28 @@ export default class ProsemirrorTextManipulation {
     command?.(this.view.state, this.view.dispatch);
   }
 
-  @bind
   emojiSelected(code) {
+    let index = 0;
+
+    const value = this.autocompleteHandler.getValue();
+    const match = value.match(/\B:(\w*)$/);
+    if (match) {
+      index = value.length - match.index;
+    }
+
+    const { from, to } = this.view.state.selection;
+
     this.view.dispatch(
       this.view.state.tr
-        .replaceSelectionWith(this.schema.nodes.emoji.create({ code }))
+        .replaceRangeWith(
+          from - index,
+          to,
+          this.schema.nodes.emoji.create({ code })
+        )
         .insertText(" ")
     );
+
+    next(() => this.focus());
   }
 
   @bind
@@ -261,7 +279,7 @@ export default class ProsemirrorTextManipulation {
 
     const markdown = this.convertToMarkdown(this.view.state.doc);
 
-    const regex = opts.regex || new RegExp(oldValue, "g");
+    const regex = opts.regex || new RegExp(escapeRegExp(oldValue), "g");
     const index = opts.index || 0;
     let matchCount = 0;
 
@@ -337,8 +355,6 @@ class ProsemirrorAutocompleteHandler {
   /**
    * Replaces the term between start-end in the currently selected text block
    *
-   * It uses input rules to convert it to a node if possible
-   *
    * @param {number} start
    * @param {number} end
    * @param {String} term
@@ -389,10 +405,17 @@ class ProsemirrorAutocompleteHandler {
   }
 
   async inCodeBlock() {
-    return (
-      this.view.state.selection.$from.parent.type ===
-      this.schema.nodes.code_block
-    );
+    const { schema, view } = this;
+    const { selection } = view.state;
+
+    const isInCodeBlock =
+      selection.$from.parent.type === schema.nodes.code_block;
+
+    const hasCodeMark = selection.$from
+      .marks()
+      .some((mark) => mark.type === schema.marks.code);
+
+    return isInCodeBlock || hasCodeMark;
   }
 }
 

@@ -24,15 +24,19 @@ class ColorSchemeRevisor
           if existing = @color_scheme.colors_by_name[c[:name]]
             existing.update(c)
           else
-            @color_scheme.color_scheme_colors << ColorSchemeColor.new(name: c[:name], hex: c[:hex])
+            @color_scheme.color_scheme_colors << ColorSchemeColor.new(
+              name: c[:name],
+              hex: c[:hex],
+              dark_hex: c[:dark_hex],
+            )
           end
         end
         @color_scheme.clear_colors_cache
       end
 
-      if has_colors || @color_scheme.saved_change_to_name? ||
+      if has_colors || @color_scheme.will_save_change_to_name? ||
            @color_scheme.will_save_change_to_user_selectable? ||
-           @color_scheme.saved_change_to_base_scheme_id?
+           @color_scheme.will_save_change_to_base_scheme_id?
         @color_scheme.save
       end
     end

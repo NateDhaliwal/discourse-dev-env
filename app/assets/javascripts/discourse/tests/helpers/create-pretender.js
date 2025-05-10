@@ -78,6 +78,10 @@ export function applyDefaultHandlers(pretender) {
 
   pretender.get("/admin/plugins", () => response({ plugins: [] }));
 
+  pretender.get("/admin/search/all.json", () => {
+    return response(cloneJSON(fixturesByUrl["/admin/search/all.json"]));
+  });
+
   pretender.get("/composer_messages", () =>
     response({ composer_messages: [] })
   );
@@ -260,6 +264,7 @@ export function applyDefaultHandlers(pretender) {
             name: "bug",
             color: "e9dd00",
             text_color: "000000",
+            style_type: "square",
             slug: "bug",
             read_restricted: false,
             parent_category_id: null,
@@ -902,17 +907,21 @@ export function applyDefaultHandlers(pretender) {
       store = store.reverse();
     }
 
-    return response(200, store);
+    return response(200, {
+      users: store,
+    });
   });
 
   pretender.get("/admin/users/list/new.json", () => {
-    return response(200, [
-      {
-        id: 2,
-        username: "sam",
-        email: "<small>sam@example.com</small>",
-      },
-    ]);
+    return response(200, {
+      users: [
+        {
+          id: 2,
+          username: "sam",
+          email: "<small>sam@example.com</small>",
+        },
+      ],
+    });
   });
 
   pretender.get("/admin/customize/site_texts", (request) => {

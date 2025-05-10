@@ -34,6 +34,10 @@
     font-size: var(--font-down-1);
   }
 
+  &__color-controls {
+    display: flex;
+  }
+
   &__picker {
     display: flex;
     justify-content: center;
@@ -48,9 +52,19 @@
     }
   }
 
-  &__input {
+  &__revert.--hidden {
+    visibility: hidden;
+  }
+
+  input[type="color"] {
     width: 23px;
     height: 23px;
+  }
+
+  input[type="text"] {
+    font-family: monospace;
+    margin: 0;
+    width: 5em;
   }
 
   &__color-code {

@@ -21,7 +21,7 @@ describe "Using #hashtag autocompletion to search for and lookup channels", type
 
   it "searches for channels, categories, and tags with # and prioritises channels in the results" do
     chat_page.visit_channel(channel1)
-    chat_channel_page.composer.fill_in(with: "this is #ra")
+    chat_channel_page.composer.send_keys("this is #ra")
     expect(page).to have_css(
       ".hashtag-autocomplete .hashtag-autocomplete__option .hashtag-autocomplete__link",
       count: 3,
@@ -102,7 +102,7 @@ describe "Using #hashtag autocompletion to search for and lookup channels", type
       with_tag(
         "span",
         with: {
-          class: "hashtag-category-badge hashtag-color--category-#{category.id}",
+          class: "hashtag-category-square hashtag-color--category-#{category.id}",
         },
       )
     end

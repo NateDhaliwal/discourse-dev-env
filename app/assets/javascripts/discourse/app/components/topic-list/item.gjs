@@ -89,6 +89,9 @@ export default class Item extends Component {
   }
 
   highlightRow(element) {
+    element.dataset.testWasHighlighted = true;
+
+    // Remove any existing highlighted class
     element.addEventListener(
       "animationend",
       () => element.classList.remove("highlighted"),
@@ -344,6 +347,10 @@ export default class Item extends Component {
                       class="badge-notification new-topic"
                     ></span></span>
                 {{~/if~}}
+                <PluginOutlet
+                  @name="topic-list-after-badges"
+                  @outletArgs={{hash topic=@topic}}
+                />
                 {{~#if this.expandPinned~}}
                   <TopicExcerpt @topic={{@topic}} />
                 {{~/if~}}
@@ -376,12 +383,13 @@ export default class Item extends Component {
                       @outletArgs={{hash topic=@topic}}
                     />
                     {{categoryLink @topic.category}}
+                    {{~! no whitespace ~}}
                     <PluginOutlet
                       @name="topic-list-after-category"
                       @outletArgs={{hash topic=@topic}}
-                    />
+                    />{{~! no whitespace ~}}
                   {{/unless}}
-
+                  {{~! no whitespace ~}}
                   {{discourseTags @topic mode="list"}}
                 </span>
 

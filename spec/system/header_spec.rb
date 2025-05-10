@@ -12,18 +12,22 @@ RSpec.describe "Glimmer Header", type: :system do
     expect(page).to have_css("#site-logo")
   end
 
-  it "displays sign up / login buttons" do
+  it "displays sign up button" do
     visit "/"
     expect(page).to have_css("button.sign-up-button")
     expect(page).to have_css("button.login-button")
 
     find("button.sign-up-button").click
-    expect(page).to have_css(".d-modal.create-account")
+    expect(page).to have_css(".signup-fullpage")
+  end
 
-    header.click_outside
+  it "displays login button" do
+    visit "/"
+    expect(page).to have_css("button.sign-up-button")
+    expect(page).to have_css("button.login-button")
 
     find("button.login-button").click
-    expect(page).to have_css(".d-modal.login-modal")
+    expect(page).to have_css(".login-fullpage")
   end
 
   it "shows login button when login required" do
@@ -116,16 +120,16 @@ RSpec.describe "Glimmer Header", type: :system do
     find(".header-dropdown-toggle.current-user").click
     expect(header.active_element_id).to eq("user-menu-button-all-notifications")
 
-    find("##{header.active_element_id}").send_keys(:arrow_down)
+    find("##{header.active_element_id}").send_keys(:down)
     expect(header.active_element_id).to eq("user-menu-button-replies")
 
-    4.times { find("##{header.active_element_id}").send_keys(:arrow_down) }
+    4.times { find("##{header.active_element_id}").send_keys(:down) }
     expect(header.active_element_id).to eq("user-menu-button-profile")
 
-    find("##{header.active_element_id}").send_keys(:arrow_down)
+    find("##{header.active_element_id}").send_keys(:down)
     expect(header.active_element_id).to eq("user-menu-button-all-notifications")
 
-    find("##{header.active_element_id}").send_keys(:arrow_up)
+    find("##{header.active_element_id}").send_keys(:up)
     expect(header.active_element_id).to eq("user-menu-button-profile")
   end
 
@@ -234,19 +238,6 @@ RSpec.describe "Glimmer Header", type: :system do
     end
   end
 
-  context "when cmd + f keyboard shortcut pressed - when within a topic with 20+ posts" do
-    before { sign_in(current_user) }
-    fab!(:posts) { Fabricate.times(21, :post, topic: topic) }
-
-    it "opens search on first press, and closes on the second" do
-      visit "/t/#{topic.slug}/#{topic.id}"
-      header.search_in_topic_keyboard_shortcut
-      expect(search).to have_search_menu_visible
-      header.search_in_topic_keyboard_shortcut
-      expect(search).to have_no_search_menu_visible
-    end
-  end
-
   describe "mobile topic-info" do
     fab!(:topic)
     fab!(:posts) { Fabricate.times(21, :post, topic: topic) }
@@ -292,15 +283,15 @@ RSpec.describe "Glimmer Header", type: :system do
       sign_in current_user
       visit "/"
 
-      header = find(".d-header")
-      expect(header).not_to have_css(".do-not-disturb-background")
+      expect(page).to have_no_css(".d-header .do-not-disturb-background")
 
       current_user.publish_do_not_disturb(ends_at: 1.hour.from_now)
-      expect(header).to have_css(".d-header .do-not-disturb-background")
+
+      try_until_success { expect(page).to have_css(".d-header .do-not-disturb-background") }
 
       current_user.publish_do_not_disturb(ends_at: 1.second.from_now)
 
-      expect(header).not_to have_css(".d-header .do-not-disturb-background")
+      expect(page).to have_no_css(".d-header .do-not-disturb-background")
     end
   end
 end

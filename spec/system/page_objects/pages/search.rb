@@ -9,7 +9,7 @@ module PageObjects
       end
 
       def type_in_search_menu(input)
-        find("input#search-term").send_keys(input)
+        find(".search-input--header input").send_keys(input)
         self
       end
 
@@ -22,16 +22,31 @@ module PageObjects
         self
       end
 
-      def heading_text
-        find("h1.search-page-heading").text
+      def has_heading_text?(text)
+        has_selector?("h1.search-page-heading", text: text)
+      end
+
+      def has_no_heading_text?(text)
+        has_no_selector?("h1.search-page-heading", text: text)
       end
 
       def click_search_button
         find(".search-cta").click
       end
 
+      def expand_dropdown
+        click_search_icon if !has_css?(".search-menu .search-menu-panel", wait: 0)
+        self
+      end
+
       def click_search_icon
         find(".d-header #search-button").click
+        self
+      end
+
+      def click_advanced_search_icon
+        find(".d-header .show-advanced-search").click
+        self
       end
 
       def click_in_posts_by_user
@@ -43,11 +58,18 @@ module PageObjects
       end
 
       def has_search_menu_visible?
-        page.has_selector?(".search-menu .search-menu-panel", visible: true)
+        page.has_css?(".search-menu .search-menu-panel", visible: true)
+      end
+
+      # This is used for cases like header and welcome banner search,
+      # where we show the search results with a quick tip, but the panel
+      # itself is not technically "visible" in CSS terms.
+      def has_search_menu?
+        page.has_css?(".search-menu .search-menu-panel", visible: false)
       end
 
       def has_no_search_menu_visible?
-        page.has_no_selector?(".search-menu .search-menu-panel")
+        page.has_no_css?(".search-menu .search-menu-panel")
       end
 
       SEARCH_ICON_SELECTOR = "#search-button.btn-icon"
@@ -90,8 +112,8 @@ module PageObjects
         page.has_css?(".search-menu-container .results .no-results")
       end
 
-      def search_term
-        page.find("#search-term").value
+      def search_term(id = "icon-search-input")
+        page.find("##{id}").value
       end
 
       SEARCH_PAGE_SELECTOR = "body.search-page"
@@ -102,6 +124,10 @@ module PageObjects
 
       def not_active?
         has_no_css?(SEARCH_PAGE_SELECTOR)
+      end
+
+      def browser_search_shortcut
+        page.send_keys([PLATFORM_KEY_MODIFIER, "f"])
       end
     end
   end

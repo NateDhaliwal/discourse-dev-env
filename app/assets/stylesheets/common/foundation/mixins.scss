@@ -8,18 +8,21 @@
 @use "sass:color";
 @use "sass:math";
 @use "sass:string";
+@use "sass:map";
+@use "lib/viewport";
 
 $breakpoints: (
-  mobile-small: 320px,
-  mobile-medium: 350px,
-  mobile-large: 450px,
-  mobile-extra-large: 550px,
-  tablet: 768px,
-  medium: 850px,
-  large: 1000px,
-  extra-large: 1140px,
+  mobile-small: map.get(viewport.$breakpoints, sm),
+  mobile-medium: map.get(viewport.$breakpoints, sm),
+  mobile-large: map.get(viewport.$breakpoints, sm),
+  mobile-extra-large: map.get(viewport.$breakpoints, sm),
+  tablet: map.get(viewport.$breakpoints, md),
+  medium: map.get(viewport.$breakpoints, lg),
+  large: map.get(viewport.$breakpoints, lg),
+  extra-large: map.get(viewport.$breakpoints, xl),
 );
 
+/* breakpoint is a legacy mixin. Use `@use "lib/viewport"` instead. */
 @mixin breakpoint($bp, $rule: max-width, $type: screen, $sidebar: false) {
   /* stylelint-disable-next-line scss/no-global-function-names */
   $bp-value: map-get($breakpoints, $bp);
@@ -139,6 +142,14 @@ $hpad: 0.65em;
   background-color: var(--blend-primary-secondary-5);
 }
 
+@mixin float-down {
+  animation: float-down ease 0.25s 1 forwards;
+}
+
+@mixin float-up {
+  animation: float-up ease 0.25s 1 forwards;
+}
+
 @mixin default-focus() {
   border-color: var(--tertiary);
   outline: 2px solid var(--tertiary);
@@ -234,15 +245,18 @@ $hpad: 0.65em;
 }
 
 @mixin mention() {
-  display: inline;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25em;
   font-size: 0.93em;
   font-weight: normal;
   color: var(--primary);
-  padding: 0.14em 0.34em 0.19em;
+  padding: 0.2em 0.34em;
   background: var(--primary-low);
   border-radius: 0.6em;
   text-decoration: none;
   text-wrap: nowrap;
+  line-height: 1;
 
   &.--bot {
     background: var(--success-low);

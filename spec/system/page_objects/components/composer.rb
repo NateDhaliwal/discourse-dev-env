@@ -7,9 +7,18 @@ module PageObjects
       AUTOCOMPLETE_MENU = ".autocomplete.ac-emoji"
       HASHTAG_MENU = ".autocomplete.hashtag-autocomplete"
       MENTION_MENU = ".autocomplete.ac-user"
+      RICH_EDITOR = ".d-editor-input.ProseMirror"
 
       def rich_editor
-        find(".d-editor-input.ProseMirror")
+        find(RICH_EDITOR)
+      end
+
+      def has_rich_editor?
+        page.has_css?(RICH_EDITOR)
+      end
+
+      def has_no_rich_editor?
+        page.has_no_css?(RICH_EDITOR)
       end
 
       def opened?
@@ -45,7 +54,7 @@ module PageObjects
       end
 
       def fill_content(content)
-        composer_input.fill_in(with: content)
+        find("#{COMPOSER_ID} .d-editor .d-editor-input").fill_in(with: content)
         self
       end
 
@@ -136,6 +145,10 @@ module PageObjects
         has_css?(MENTION_MENU)
       end
 
+      def mention_menu_autocomplete_username_list
+        find(MENTION_MENU).all("a").map { |a| a.text }
+      end
+
       def has_emoji_autocomplete?
         has_css?(AUTOCOMPLETE_MENU)
       end
@@ -214,6 +227,10 @@ module PageObjects
 
       def has_form_template_field_error?(error)
         page.has_css?(".form-template-field__error", text: error, visible: :all)
+      end
+
+      def has_no_form_template_field_error?(error)
+        page.has_no_css?(".form-template-field__error", text: error, visible: :all)
       end
 
       def has_form_template_field_label?(label)
@@ -296,9 +313,30 @@ module PageObjects
         select_kit.collapse
       end
 
+      def has_rich_editor_active?
+        find("#{COMPOSER_ID}").has_css?(".composer-toggle-switch__right-icon.--active")
+      end
+
+      def has_no_rich_editor_active?
+        find("#{COMPOSER_ID}").has_css?(".composer-toggle-switch__left-icon.--active")
+      end
+
       def toggle_rich_editor
-        find("#{COMPOSER_ID} .composer-toggle-switch").click
+        rich = page.find(".composer-toggle-switch")["data-rich-editor"]
+
+        editor_toggle_switch.click
+
+        if rich
+          has_no_rich_editor_active?
+        else
+          has_rich_editor_active?
+        end
+
         self
+      end
+
+      def editor_toggle_switch
+        find("#{COMPOSER_ID} .composer-toggle-switch")
       end
 
       private

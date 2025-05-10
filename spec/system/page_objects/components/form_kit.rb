@@ -41,13 +41,15 @@ module PageObjects
         when "menu"
           component.find(".fk-d-menu__trigger")["data-value"]
         when "select"
-          component.find("select").value
+          PageObjects::Components::DSelect.new(component.find("select")).value
         when "composer"
           component.find("textarea").value
         when "image"
           url = component.find(".uploaded-image-preview a.lightbox", wait: 10)[:href]
           sha1 = url.match(/(\h{40})/).captures.first
           Upload.find_by(sha1:)
+        when "toggle"
+          component.find("button[role=\"switch\"]", visible: :all)["aria-checked"] == "true"
         end
       end
 
@@ -91,6 +93,8 @@ module PageObjects
           component.find("input[type='checkbox']").click
         when "password"
           component.find(".form-kit__control-password-toggle").click
+        when "toggle"
+          component.find("button[role=\"switch\"]", visible: :all).ancestor("label").click
         else
           raise "'toggle' is not supported for control type: #{control_type}"
         end
@@ -118,12 +122,9 @@ module PageObjects
           picker.search(value)
           picker.select_row_by_value(value)
         when "select"
-          selector = component.find(".form-kit__control-select")
-          selector.find(".form-kit__control-option[value='#{value}']").select_option
-          selector.execute_script(<<~JS, selector)
-            var selector = arguments[0];
-            selector.dispatchEvent(new Event("input", { bubbles: true, cancelable: true }));
-          JS
+          PageObjects::Components::DSelect.new(component.find(".form-kit__control-select")).select(
+            value,
+          )
         when "menu"
           trigger = component.find(".fk-d-menu__trigger.form-kit__control-menu-trigger")
           trigger.click

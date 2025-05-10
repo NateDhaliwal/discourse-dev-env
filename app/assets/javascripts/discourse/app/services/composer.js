@@ -15,11 +15,11 @@ import {
   cannotPostAgain,
   durationTextFromSeconds,
 } from "discourse/helpers/slow-mode";
+import { popupAjaxError } from "discourse/lib/ajax-error";
 import { customPopupMenuOptions } from "discourse/lib/composer/custom-popup-menu-options";
 import discourseDebounce from "discourse/lib/debounce";
 import discourseComputed from "discourse/lib/decorators";
 import deprecated from "discourse/lib/deprecated";
-import { isTesting } from "discourse/lib/environment";
 import prepareFormTemplateData, {
   getFormTemplateObject,
 } from "discourse/lib/form-template-validation";
@@ -46,6 +46,8 @@ import Composer, {
   SAVE_LABELS,
 } from "discourse/models/composer";
 import Draft from "discourse/models/draft";
+import PostLocalization from "discourse/models/post-localization";
+import TopicLocalization from "discourse/models/topic-localization";
 import { i18n } from "discourse-i18n";
 
 async function loadDraft(store, opts = {}) {
@@ -80,12 +82,6 @@ async function loadDraft(store, opts = {}) {
 
 const _composerSaveErrorCallbacks = [];
 
-let _checkDraftPopup = !isTesting();
-
-export function toggleCheckDraftPopup(enabled) {
-  _checkDraftPopup = enabled;
-}
-
 export function clearComposerSaveErrorCallback() {
   _composerSaveErrorCallbacks.length = 0;
 }
@@ -107,13 +103,15 @@ export default class ComposerService extends Service {
   @service site;
   @service siteSettings;
   @service store;
+  @service toasts;
 
   @tracked
   showPreview = this.site.mobileView
     ? false
     : (this.keyValueStore.get("composer.showPreview") || "true") === "true";
 
-  @tracked allowPreview = true;
+  @tracked allowPreview = false;
+  @tracked selectedTranslationLocale = null;
   checkedMessages = false;
   messageCount = null;
   showEditReason = false;
@@ -131,7 +129,6 @@ export default class ComposerService extends Service {
   composerHeight = null;
 
   @and("site.mobileView", "showPreview") forcePreview;
-  @or("isWhispering", "model.unlistTopic") whisperOrUnlistTopic;
   @alias("site.categoriesList") categories;
   @alias("topicController.model") topicModel;
   @reads("currentUser.staff") isStaffUser;
@@ -201,6 +198,22 @@ export default class ComposerService extends Service {
       !this.get("model.replyingToTopic") &&
       !this.get("model.editingPost")
     );
+  }
+
+  get replyingToUserId() {
+    if (this.get("model.editingPost")) {
+      const user = this.get("model.post.reply_to_user");
+      if (user) {
+        return user.id;
+      }
+    }
+
+    const user = this.get("model.post.user");
+    if (user) {
+      return user.id;
+    }
+
+    return this.get("model.topic.user_id");
   }
 
   get formTemplateInitialValues() {
@@ -354,6 +367,8 @@ export default class ComposerService extends Service {
       return "composer.create_whisper";
     } else if (privateMessage && modelAction === Composer.REPLY) {
       return "composer.create_pm";
+    } else if (modelAction === Composer.ADD_TRANSLATION) {
+      return "composer.translations.save";
     }
 
     return SAVE_LABELS[modelAction];
@@ -1028,6 +1043,10 @@ export default class ComposerService extends Service {
       return;
     }
 
+    if (this.model.action === Composer.ADD_TRANSLATION) {
+      return this.saveTranslation();
+    }
+
     // Clear the warning state if we're not showing the checkbox anymore
     if (!this.showWarning) {
       this.set("model.isWarning", false);
@@ -1267,6 +1286,44 @@ export default class ComposerService extends Service {
     return promise;
   }
 
+  async saveTranslation() {
+    this.set("model.loading", true);
+
+    this.set("lastValidatedAt", Date.now());
+    this.appEvents.trigger("composer-service:last-validated-at-updated", {
+      model: this.model,
+    });
+
+    try {
+      await PostLocalization.createOrUpdate(
+        this.model.post.id,
+        this.selectedTranslationLocale,
+        this.model.reply
+      );
+
+      if (this.model.post.firstPost) {
+        await TopicLocalization.createOrUpdate(
+          this.model.post.topic_id,
+          this.selectedTranslationLocale,
+          this.model.title
+        );
+      }
+
+      this.close();
+      this.toasts.success({
+        duration: 3000,
+        data: {
+          message: i18n("post.localizations.success"),
+        },
+      });
+      this.selectedTranslationLocale = null;
+    } catch (e) {
+      popupAjaxError(e);
+    } finally {
+      this.set("model.loading", false);
+    }
+  }
+
   @action
   postWasEnqueued(details) {
     this.modal.show(PostEnqueuedModal, { model: details });
@@ -1285,7 +1342,7 @@ export default class ComposerService extends Service {
 
    @method open
    @param {Object} opts Options for creating a post
-   @param {String} opts.action The action we're performing: edit, reply, createTopic, createSharedDraft, privateMessage
+   @param {String} opts.action The action we're performing: edit, reply, createTopic, createSharedDraft, privateMessage, addTranslation
    @param {String} opts.draftKey
    @param {Post} [opts.post] The post we're replying to
    @param {Topic} [opts.topic] The topic we're replying to
@@ -1298,6 +1355,8 @@ export default class ComposerService extends Service {
    @param {String} [opts.draftSequence]
    @param {Boolean} [opts.skipJumpOnSave] Option to skip navigating to the post when saved in this composer session
    @param {Boolean} [opts.skipFormTemplate] Option to skip the form template even if configured for the category
+   @param {String} [opts.hijackPreview] Option to hijack the preview with custom content
+   @param {String} [opts.selectedTranslationLocale] The locale to use for the translation
    **/
   async open(opts = {}) {
     if (!opts.draftKey) {
@@ -1325,6 +1384,14 @@ export default class ComposerService extends Service {
     this.set("skipJumpOnSave", !!opts.skipJumpOnSave);
 
     this.set("skipFormTemplate", !!opts.skipFormTemplate);
+
+    if (opts.hijackPreview) {
+      this.set("hijackPreview", opts.hijackPreview);
+    }
+
+    if (opts.selectedTranslationLocale) {
+      this.selectedTranslationLocale = opts.selectedTranslationLocale;
+    }
 
     // Scope the categories drop down to the category we opened the composer with.
     if (opts.categoryId && !opts.disableScopedCategory) {
@@ -1391,18 +1458,6 @@ export default class ComposerService extends Service {
       }
 
       await this._setModel(composerModel, opts);
-
-      // otherwise, do the draft check async
-      if (!opts.draft) {
-        let data = await Draft.get(opts.draftKey);
-        data = await this.confirmDraftAbandon(data);
-
-        if (data.draft) {
-          opts.draft = data.draft;
-          opts.draftSequence = data.draft_sequence;
-          await this.open(opts);
-        }
-      }
     } finally {
       this.skipAutoSave = false;
       this.appEvents.trigger("composer:open", { model: this.model });
@@ -1551,48 +1606,6 @@ export default class ComposerService extends Service {
     const sequence = draftSequence || this.get("model.draftSequence");
     await Draft.clear(key, sequence);
     this.appEvents.trigger("draft:destroyed", key);
-  }
-
-  confirmDraftAbandon(data) {
-    if (!data.draft) {
-      return data;
-    }
-
-    // do not show abandon dialog if old draft is clean
-    const draft = JSON.parse(data.draft);
-    if (draft.reply === draft.originalText) {
-      data.draft = null;
-      return data;
-    }
-
-    if (!_checkDraftPopup) {
-      data.draft = null;
-      return data;
-    }
-
-    return new Promise((resolve) => {
-      this.dialog.alert({
-        message: i18n("drafts.abandon.confirm"),
-        buttons: [
-          {
-            label: i18n("drafts.abandon.yes_value"),
-            class: "btn-danger",
-            icon: "trash-can",
-            action: () => {
-              this.destroyDraft(data.draft_sequence).finally(() => {
-                data.draft = null;
-                resolve(data);
-              });
-            },
-          },
-          {
-            label: i18n("drafts.abandon.no_value"),
-            class: "btn-resume-editing",
-            action: () => resolve(data),
-          },
-        ],
-      });
-    });
   }
 
   cancelComposer(opts = {}) {
